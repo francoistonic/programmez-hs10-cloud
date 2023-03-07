@@ -1,0 +1,193 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fmodern\fcharset0 Courier;\f1\fswiss\fcharset0 ArialMT;\f2\fmodern\fcharset0 Courier-Oblique;
+\f3\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red217\green217\blue208;\red30\green52\blue76;
+\red22\green54\blue86;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgenericrgb\c85046\c84945\c81752;\csgenericrgb\c11597\c20560\c29725;
+\csgenericrgb\c8499\c21198\c33687;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 terraform \{\
+  required_providers \{\
+    ovh = \{\
+      source  = "ovh/ovh"\
+    \}\
+  \}\
+\}\
+\
+provider "ovh" \{\
+  endpoint           = "ovh-eu"\
+  application_key    = "<your_access_key>"\
+  application_secret = "<your_application_secret>"\
+  consumer_key       = "<your_consu
+\f1\fs20 \cf3 m
+\fs22 \cf4 er_key>"\
+\}\
+\
+Pour Terraform 0.12 
+\f0 \cf2 ou inf\'e9rieur :\
+# Configure the OVHcloud Provider\
+provider "ovh" \{\
+  endpoint           = "ovh-eu"\
+  application_key    = "<your_access_key>"\
+  application_secret = "<your_application_secret>"\
+  consumer_key       = "<y
+\f1 \cf3 o\cf4 ur
+\f0 \cf2 _consumer_key>"\
+\}\
+\
+\
+\
+$ terraform init\
+\
+Initializing the backend...\
+\
+Initializing provider plugins...\
+- Finding latest version of ovh/ovh...\
+- Installing ovh/ovh v0.27.0...\
+- Installed ovh/ovh v0.27.0 (signed by a HashiCorp partner, key ID F56D1A6CBDAAADA5)\
+\
+Partner and community providers are signed by their developers.\
+If you'd like to know more about provider signing, you can read about it here:\
+https://www.terraform.io/docs/cli/plugins/signing.html\
+\
+Terraform has created a lock file .terraform.lock.hcl to record the provider\
+selections it made above. Include this file in your version control repository\
+so that Terraform can guarantee to make the same selections by default when\
+you run "terraform init" in the future.\
+\
+Terraform has been successfully initialized!\
+\
+You may now begin working with Terraform. Try running "terraform plan" to see\
+any changes that are required for your infrastructure. All Terraform commands\
+should now work.\
+\
+If you ever set or change modules or backend configuration for Terraform,\
+rerun this command to reinitialize your working directory. If you forget, other\
+commands wi
+\f1 \cf4 ll
+\f0 \cf2  detect it and remind you to do so if necessary.\
+\
+\
+\
+variable service_name \{\
+  type
+\f1 \cf3   \cf2  
+\f0      = string\
+  default     = "<your_service_name>"\
+\}\
+\
+\
+\
+resource "ovh_cloud_project_kube" "cluster" \{\
+  service_name = var.service_name\
+  name         = "my-
+\f1 su\cf4 pe
+\f0 \cf2 r-cluster"\
+  region       = "GRA5"\
+  version      = "1.25"\
+\}\
+\
+\
+\
+\
+$ terraform apply\
+\
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:\
+  + create\
+\
+Terraform will perform the following actions:\
+\
+  # ovh_cloud_project_kube.cluster will be created\
+  + resource "ovh_cloud_project_kube" "cluster" \{\
+      + control_plane_is_up_to_date = (known after apply)\
+      + id                          = (known after apply)\
+      + is_up_to_date               = (known after apply)\
+      + kubeconfig                  = (sensitive value)\
+      + name                        = "my-super-cluster"\
+      + next_upgrade_versions       = (known after apply)\
+      + nodes_url                   = (known after apply)\
+      + region                      = "GRA5"\
+      + service_name                = "xxxxxxxxxxxxxxxxxxxx"\
+      + status                      = (known after apply)\
+      + update_policy               = "ALWAYS_UPDATE"\
+      + url                         = (known after apply)\
+ 
+\f1\fs20 \cf3  
+\f0\fs22 \cf2     + version                     = "1.25"\
+    \}\
+\
+Plan: 1 to add, 0 to change, 0 to destroy.\
+\
+Do you want to perform these actions?\
+  Terraform will perform the actions described above.\
+  Only 'yes' will be accepted to approve.\
+\
+  Enter a value: yes\
+\
+ovh_cloud_project_kube.cluster: Creating...\
+ovh_cloud_project_kube.cluster: Still creating... [10s elapsed]\
+ovh_cloud_project_kube.cluster: Still creating... [20s elapsed]\
+\'85\
+ovh_cloud_project_kube.cluster: Still creating... [3m30s elapsed]\
+ovh_cloud_project_kube.cluster: Still creating... [3m40s elapsed]\
+ovh_cloud_project_kube.cluster: Creation complete after
+\f1  3
+\f0 m47s [id=76db2764-58d2-4384-b17f-ab38b0c7fc78]\
+\
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.\
+\
+\
+\
+$ terraform destroy\
+ovh_cloud_project_kube.cluster: Refreshing state... [id=xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx]\
+\
+Terraform used the selected providers to generate the following execution plan
+\f1\fs20 \cf3 .
+\f0\fs22 \cf2  R
+\f2\i esource actions are indicated with the following s
+\f0\i0 ymbols:\
+  - destroy\
+\
+Terraform will perform the following actions:\
+\
+  # ovh_cloud_project_kube.cluster will be destroyed\
+  - resource "ovh_cloud_project_kube" "cluster" \{\
+      - control_plane_is_up_to_date = true -> null\
+      - id                          = "xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx" -> null\
+      - is_up_to_date               = true -> null\
+      - kubeconfig                  = (sensitive value)\
+      - name                        = "my-super-cluster" -> null\
+      - next_upgrade_versions       = [] -> null\
+      - nodes_url                   = "xxxxxx.nodes.xx.gra.k8s.ovh.net" -> null\
+      - region                      = "GRA5" -> null\
+      - service_name                = "xxxxxxxxxxxxxxxxx" -> null\
+      - status                      = "READY" -> null\
+      - update_policy               = "ALWAYS_UPDATE" -> n
+\f1\fs20 \cf3 u
+\f0\fs22 \cf2 ll\
+      - url                         = "xxxxxx.xx.gra.k8s.ovh.net" -> null\
+      - version                     = "1.25" -> null\
+    \}\
+\
+Plan: 0 to add, 0 to change, 1 to destroy.\
+\
+Do you really want to destroy all resources?\
+  Terraform will destroy all your managed infrastructure, as shown above.\
+  There is no undo. Only 'yes' will be accepted to confirm.\
+\
+  Enter a value: yes\
+\
+ovh_cloud_project_kube.cluster: Destroying... [id=xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx]\
+ovh_cloud_project_kube.cluster: Still destroying... [id=xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx, 10s elapsed]\
+ovh_cloud_project_kube.cluster: Still destroying... [id=xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx, 20s elapsed]\
+ovh_cloud_project_kube.cluster: Still destroying... [i
+\f1 \cf5 d\cf2 =x
+\f3\fs24 \cf0 xxxxx-xxxx-xxxx-xxxx-xxxxxxxxx, 30s elapsed]\
+ovh_cloud_project_kube.cluster: Destruction complete after 37s\
+\
+Destroy complete! Resources: 1 destroyed.\
+\
+\
+}
